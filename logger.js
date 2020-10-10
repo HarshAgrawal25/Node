@@ -1,18 +1,14 @@
 const EventEmitter = require('events');
-const emitter = new EventEmitter();
 
-console.log(__dirname)
-console.log(__filename)
-var url ='http://mylogger.io/log';
 
-function log(message){
-    console.log(`My name is ${message}`);
+class Logger extends EventEmitter{
+    log(message){
+        console.log(`My name is ${message}`);
+        // Raise an event
+       this.emit("message Logged", {msg : "Hello user"}) 
+    }
 }
+ 
 
-emitter.on("Logging in",(e) => {
-    console.log(e.msg)
-})
-
-emitter.emit("Logging in", {msg : "Hello user"})
-module.exports = log;
+module.exports = Logger;
 
