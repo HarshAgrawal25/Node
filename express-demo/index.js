@@ -21,7 +21,7 @@ app.get('/api/courses',(req,res) => {
 
 app.get('/api/courses/:id',(req,res) => {
   const course = courses.find(c => c.id === parseInt(req.params.id));
-  if(!course) res.status(404).send("The course with given id not found")  ;
+  if(!course) return res.status(404).send("The course with given id not found")  ;
   res.send(course);
 })
 
@@ -38,10 +38,8 @@ app.get('/api/posts/:year/:month',(req,res) => {
 app.post('/api/courses',(req,res) => {
     const {error} = validateCourse(req.body)
       
-    if(error){
-        res.status(400).send(error.details[0].message);
-        return;
-    }
+    if(error) return res.status(400).send(error.details[0].message);
+    
 
     const course = {
         id : courses.length + 1,
@@ -58,7 +56,7 @@ app.put('/api/courses/:id',(req,res) =>{
     //Look up the course
     //if not existing, return 404
   const course = courses.find(c => c.id === parseInt(req.params.id));
-  if(!course) res.status(404).send("The course with given id not found")  ;
+  if(!course) return  res.status(404).send("The course with given id not found")  ;
 
 
     //Validate
@@ -66,10 +64,7 @@ app.put('/api/courses/:id',(req,res) =>{
     
       const {error} = validateCourse(req.body)
       
-      if(error){
-          res.status(400).send(error.details[0].message);
-          return;
-      }
+      if(error) return res.status(400).send(error.details[0].message);
     //Update the course
     // Return the updated course 
     course.name = req.body.name
@@ -82,6 +77,22 @@ function validateCourse(course){
       };
         return Joi.validate(course,scheme)
 }
+
+// delete method
+
+app.delete("/api/courses/:id",(req,res) => {
+    //Look up the courses
+    // Not existing , return 404
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(!course) return res.status(404).send("The course with give id not found");
+
+    //Delete
+    const index = courses.indexOf(course);
+    courses.splice(index,1);
+    //Return the same courses
+
+    res.send(course);
+});
 
 
 // PORT
