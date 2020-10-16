@@ -17,9 +17,9 @@ mongoose.connect('mongodb://localhost/playground')
 
   async function createCourse(){
     const course =new Course({
-      name:"Angular Course",
-      author:'Harsh',
-      tags:['Angular','frontend'],
+      name:"Java Course",
+      author:'Mosh',
+      tags:['Java','backend'],
       isPublished:true
     })
   const result = await course.save();
@@ -27,4 +27,12 @@ console.log(result);
   }
 
 
-createCourse();
+async function getCourse(){
+const courses =  await Course
+    .find({author:'Mosh' })
+    
+     
+console.log(courses); 
+}
+
+getCourse();
