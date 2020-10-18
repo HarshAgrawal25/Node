@@ -29,10 +29,9 @@ console.log(result);
 
 async function getCourse(){
 const courses =  await Course
-    .find({author:'Mosh' })
-    
-     
-console.log(courses); 
+    .find({isPublished:true  })
+    .count()
+    console.log(courses); 
 }
 
 getCourse();
